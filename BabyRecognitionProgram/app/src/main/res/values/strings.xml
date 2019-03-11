@@ -6,4 +6,6 @@
     <string name="button_create_card">Create New Card</string>
     <string name="button_edit_cards">Edit Existing Cards</string>
     <string name="button_begin_slideshow">Begin Slide Show</string>
+    <string name="title_activity_create_new_card">CreateNewCard</string>
+    <string name="title_activity_slide_show">SlideShowActivity</string>
 </resources>

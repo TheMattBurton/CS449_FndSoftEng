@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.buttonCreateCard:
-                Intent intent1 = new Intent(this, SlideReviewActivity.class);
+                Intent intent1 = new Intent(this, CreateNewCard.class);
                 startActivity(intent1);
                 break;
             case R.id.buttonEditCards:
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent2);
                 break;
             case R.id.buttonSlideshow:
-                Intent intent3 = new Intent(this, SlideReviewActivity.class);
+                Intent intent3 = new Intent(this, SlideShowActivity.class);
                 startActivity(intent3);
                 break;
             default:
