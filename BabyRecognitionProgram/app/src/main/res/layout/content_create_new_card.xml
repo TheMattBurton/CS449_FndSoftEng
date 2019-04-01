@@ -4,16 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/ic_brp_background"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".CreateNewCard"
     tools:showIn="@layout/activity_create_new_card">
 
     <Button
         android:id="@+id/selectImageButton"
+        style="@style/Widget.AppCompat.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:backgroundTint="@color/babyBlue"
         android:text="Select Image"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,7 +27,9 @@
         android:layout_width="350dp"
         android:layout_height="300dp"
         android:layout_marginTop="16dp"
-        android:src="@mipmap/ic_launcher"
+        android:background="@drawable/image_border"
+        android:padding="4dp"
+        android:src="@drawable/ball_640"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/selectImageButton" />
@@ -33,6 +39,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:backgroundTint="@color/babyBlue"
+        android:tint="@android:color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_home_black_24dp" />
@@ -42,6 +50,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:backgroundTint="@color/babyBlue"
+        android:tint="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_save_black_24dp" />
@@ -68,13 +78,13 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="1dp"
         android:layout_marginRight="1dp"
-        app:layout_constraintEnd_toStartOf="@+id/playRecordedAudioButton"
+        app:layout_constraintEnd_toStartOf="@+id/playOrStopAudioButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newCardTextLabel"
         app:srcCompat="@drawable/ic_record_voice_over_black_24dp" />
 
     <ImageButton
-        android:id="@+id/playRecordedAudioButton"
+        android:id="@+id/playOrStopAudioButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -82,24 +92,26 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/recordAudioButton"
         app:layout_constraintTop_toBottomOf="@+id/newCardTextLabel"
-        app:srcCompat="@drawable/ic_play_circle_outline_black_24dp" />
+        app:srcCompat="@drawable/ic_play_circle_outline_grey_24dp" />
 
     <TextView
         android:id="@+id/recordVoiceLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Record voice"
+        android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="@+id/recordAudioButton"
         app:layout_constraintStart_toStartOf="@+id/recordAudioButton"
         app:layout_constraintTop_toBottomOf="@+id/recordAudioButton" />
 
     <TextView
-        android:id="@+id/playRecordingLabel"
+        android:id="@+id/playOrStopRecordingLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Play recording"
-        app:layout_constraintEnd_toEndOf="@+id/playRecordedAudioButton"
-        app:layout_constraintStart_toStartOf="@+id/playRecordedAudioButton"
-        app:layout_constraintTop_toBottomOf="@+id/playRecordedAudioButton" />
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="@+id/playOrStopAudioButton"
+        app:layout_constraintStart_toStartOf="@+id/playOrStopAudioButton"
+        app:layout_constraintTop_toBottomOf="@+id/playOrStopAudioButton" />
 
 </android.support.constraint.ConstraintLayout>

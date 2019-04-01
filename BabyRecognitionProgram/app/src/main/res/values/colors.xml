@@ -3,4 +3,7 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="colorRecording">#EC0101</color>
+    <color name="colorPlay">#009600</color>
+    <color name="babyBlue">#2A96FF</color>
 </resources>
