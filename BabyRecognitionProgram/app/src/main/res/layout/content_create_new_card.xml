@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/ic_brp_background"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".CreateNewCard"
+    tools:context=".activities.CreateNewCard"
     tools:showIn="@layout/activity_create_new_card">
 
     <Button

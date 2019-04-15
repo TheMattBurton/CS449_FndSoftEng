@@ -1,4 +1,4 @@
-package com.themattburton.cs449.babyrecognitionprogram;
+package com.themattburton.cs449.babyrecognitionprogram.activities;
 
 import android.Manifest;
 import android.content.Intent;
@@ -13,12 +13,6 @@ import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,9 +20,24 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.themattburton.cs449.babyrecognitionprogram.dao.FlashCard;
+import com.themattburton.cs449.babyrecognitionprogram.R;
+import com.themattburton.cs449.babyrecognitionprogram.views.FlashcardViewModel;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 public class CreateNewCard extends AppCompatActivity {
 
@@ -39,13 +48,14 @@ public class CreateNewCard extends AppCompatActivity {
 
     Boolean isRecording = false;
     Boolean isPlaying = false;
-    File CurrentAudioFile = null;
+    File currentAudioFile = null;
     Button selectImage;
     ImageButton navHome;
     ImageButton saveNewCardButton;
     ImageButton recordButton;
     ImageButton playOrStopButton;
     ImageView imageView;
+    String imageUri;
     EditText imageTextLabel;
     TextView playOrStopText;
     TextView recordText;
@@ -54,7 +64,7 @@ public class CreateNewCard extends AppCompatActivity {
     private int REQUEST_CODE = 1;
     private FlashCard newCard  = null;
 
-
+    private FlashcardViewModel flashcardViewModel;
 
 
 
@@ -65,11 +75,19 @@ public class CreateNewCard extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        flashcardViewModel = ViewModelProviders.of(this).get(FlashcardViewModel.class);
+        flashcardViewModel.getAllCards().observe(this, new Observer<List<FlashCard>>() {
+            @Override
+            public void onChanged(List<FlashCard> flashCards) {
+//TODO
+            }
+        });
         permissionToRecordAccepted = ContextCompat.checkSelfPermission(CreateNewCard.this,
                 Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED;
 
         isRecording = false;
         isPlaying = false;
+        imageUri = null;
 
         navHome = findViewById(R.id.homeImageButton);
         saveNewCardButton = findViewById(R.id.saveNewCardButton);
@@ -129,7 +147,7 @@ public class CreateNewCard extends AppCompatActivity {
                 if (!isRecording) {
                     if (null != myAudioPlayer && myAudioPlayer.isPlaying()) {
                         stopPlaying();
-                    }else if (CurrentAudioFile != null) {
+                    }else if (currentAudioFile != null) {
                         playRecording();
                     }
                 } else {
@@ -168,6 +186,15 @@ public class CreateNewCard extends AppCompatActivity {
 
 
     private void saveNewCard() {
+        if (imageUri == null) {
+            Toast.makeText(this, "Please select an image!", Toast.LENGTH_LONG).show();
+        } else if (imageTextLabel.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Please add a text label to your image!", Toast.LENGTH_LONG).show();
+        } else {
+            flashcardViewModel.insert(new FlashCard(imageTextLabel.getText().toString(), imageUri, null == currentAudioFile ? null : currentAudioFile.getAbsolutePath()));
+            Toast.makeText(this, "New card saved!", Toast.LENGTH_LONG).show();
+            imageUri = null;
+        }
 
     }
 
@@ -177,9 +204,9 @@ public class CreateNewCard extends AppCompatActivity {
         myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         myAudioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
         myAudioRecorder.setMaxDuration(5000);
-        if (CurrentAudioFile != null) CurrentAudioFile.delete();
-        CurrentAudioFile = new File(getApplicationContext().getCacheDir(), getNewTempAudioFilename());
-        myAudioRecorder.setOutputFile(CurrentAudioFile.getAbsolutePath());
+        if (currentAudioFile != null) currentAudioFile.delete();
+        currentAudioFile = new File(getApplicationContext().getCacheDir(), getNewTempAudioFilename());
+        myAudioRecorder.setOutputFile(currentAudioFile.getAbsolutePath());
         myAudioRecorder.setOnInfoListener(new MediaRecorder.OnInfoListener() {
             @Override
             public void onInfo(MediaRecorder mr, int what, int extra) {
@@ -230,7 +257,7 @@ public class CreateNewCard extends AppCompatActivity {
         playOrStopText.setText("Stop Playback");
         myAudioPlayer = new MediaPlayer();
         try {
-            myAudioPlayer.setDataSource(CurrentAudioFile.getAbsolutePath());
+            myAudioPlayer.setDataSource(currentAudioFile.getAbsolutePath());
             myAudioPlayer.prepare();
             myAudioPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
@@ -268,6 +295,7 @@ public class CreateNewCard extends AppCompatActivity {
 
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri uri = data.getData();
+            imageUri = uri.toString();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 imageView.setImageBitmap(bitmap);
