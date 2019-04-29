@@ -191,7 +191,8 @@ public class CreateNewCard extends AppCompatActivity {
         } else if (imageTextLabel.getText().toString().isEmpty()) {
             Toast.makeText(this, "Please add a text label to your image!", Toast.LENGTH_LONG).show();
         } else {
-            flashcardViewModel.insert(new FlashCard(imageTextLabel.getText().toString(), imageUri, null == currentAudioFile ? null : currentAudioFile.getAbsolutePath()));
+            flashcardViewModel.insert(new FlashCard(imageTextLabel.getText().toString(),
+                    imageUri, null == currentAudioFile ? null : currentAudioFile.getAbsolutePath()));
             Toast.makeText(this, "New card saved!", Toast.LENGTH_LONG).show();
             imageUri = null;
         }
