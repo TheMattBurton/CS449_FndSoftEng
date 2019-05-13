@@ -4,12 +4,18 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.themattburton.cs449.babyrecognitionprogram"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation":
+                                     "$projectDir/schemas".toString()]
+            }
+        }
     }
     buildTypes {
         release {
@@ -20,8 +26,8 @@ android {
 }
 
 dependencies {
-    def room_version = "2.1.0-alpha04"
-    def lifecycle_version = "2.1.0-alpha04"
+    def room_version = "2.1.0-beta01"
+    def lifecycle_version = "2.1.0-beta01"
 
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"

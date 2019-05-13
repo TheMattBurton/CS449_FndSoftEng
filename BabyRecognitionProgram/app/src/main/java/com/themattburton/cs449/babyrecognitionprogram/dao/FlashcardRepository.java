@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData;
 
 public class FlashcardRepository {
     private FlashCardDao flashCardDao;
-    private LiveData<List<FlashCard>> allCards;
+    private List<FlashCard> allCards;
 
     public FlashcardRepository(Application application) {
         CardDatabase database = CardDatabase.getInstance(application);
@@ -33,7 +33,7 @@ public class FlashcardRepository {
         new DeleteAllCardsAsyncTask(flashCardDao).execute();
     }
 
-    public LiveData<List<FlashCard>> getAllCards() {
+    public List<FlashCard> getAllCards() {
         return allCards;
     }
 

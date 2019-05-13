@@ -13,7 +13,7 @@ import androidx.lifecycle.LiveData;
 
 public class FlashcardViewModel extends AndroidViewModel {
     private FlashcardRepository flashcardRepository;
-    private LiveData<List<FlashCard>> allCards;
+    private List<FlashCard> allCards;
 
     public FlashcardViewModel(@NonNull Application application) {
         super(application);
@@ -37,7 +37,7 @@ public class FlashcardViewModel extends AndroidViewModel {
         flashcardRepository.deleteAllCards();
     }
 
-    public LiveData<List<FlashCard>> getAllCards () {
+    public List<FlashCard> getAllCards () {
         return allCards;
     }
 }

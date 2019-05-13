@@ -1,0 +1,46 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "7e30e826fd45d2e8a9d6a64b870b2e8f",
+    "entities": [
+      {
+        "tableName": "FlashCard",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`cardTextLabel` TEXT NOT NULL, `imageUri` TEXT, `cardAudioFileName` TEXT, PRIMARY KEY(`cardTextLabel`))",
+        "fields": [
+          {
+            "fieldPath": "cardTextLabel",
+            "columnName": "cardTextLabel",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "imageUri",
+            "columnName": "imageUri",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "cardAudioFileName",
+            "columnName": "cardAudioFileName",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "cardTextLabel"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"7e30e826fd45d2e8a9d6a64b870b2e8f\")"
+    ]
+  }
+}

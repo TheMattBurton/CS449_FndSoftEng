@@ -33,7 +33,7 @@ public interface FlashCardDao {
 
     // Simple query without parameters that returns values.
     @Query("SELECT * from FlashCard ORDER BY cardTextLabel ASC")
-    LiveData<List<FlashCard>> getAllCards();
+    List<FlashCard> getAllCards();
 
     // Query with parameter that returns a specific word or words.
     @Query("SELECT * FROM FlashCard WHERE cardTextLabel LIKE :word ")

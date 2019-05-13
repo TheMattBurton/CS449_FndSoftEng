@@ -4,6 +4,7 @@ import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.transition.Slide;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,8 +29,10 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 public class SlideShowActivity extends AppCompatActivity {
     private static final String LOG_TAG = "SlideShow ";
@@ -50,20 +53,28 @@ public class SlideShowActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-    private static List<FlashCard> cards = new ArrayList<>();
+    private static List<FlashCard> cards;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slide_show);
-        flashcardViewModel = ViewModelProviders.of(this).get(FlashcardViewModel.class);
-        flashcardViewModel.getAllCards().observe(this, new Observer<List<FlashCard>>() {
+        //flashcardViewModel = ViewModelProviders.of(this).get(FlashcardViewModel.class);
+        /*flashcardViewModel.getAllCards().observe(this, new Observer<List<FlashCard>>() {
             @Override
             public void onChanged(List<FlashCard> flashCards) {
 //TODO
                 setCards(flashCards);
             }
-        });
+        });*/
 
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                flashcardViewModel = ViewModelProviders.of(SlideShowActivity.this).get(FlashcardViewModel.class);
+                setCards(flashcardViewModel.getAllCards());
+            }
+        });
+        //setCards(flashcardViewModel.getAllCards());
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -141,9 +152,14 @@ public class SlideShowActivity extends AppCompatActivity {
             //TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             TextView textView = rootView.findViewById(R.id.card_layout_text_label);
             //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            textView.setText(testCardText[getArguments().getInt(ARG_SECTION_NUMBER) - 1]); //getArguments().getString(ARG_CARD_LABEL_TEXT));
+            //textView.setText(testCardText[getArguments().getInt(ARG_SECTION_NUMBER) - 1]); //getArguments().getString(ARG_CARD_LABEL_TEXT));
+            textView.setText(cards.get(getArguments().getInt(ARG_SECTION_NUMBER) - 1).getCardTextLabel());
             ImageView imageView = rootView.findViewById(R.id.card_layout_image);
-            imageView.setImageResource(testCardImage[getArguments().getInt(ARG_SECTION_NUMBER) - 1]);
+            //imageView.setImageResource(testCardImage[getArguments().getInt(ARG_SECTION_NUMBER) - 1]);
+            String uri = cards.get(getArguments().getInt(ARG_SECTION_NUMBER) - 1).getImageUri();
+            String decodedUri = uri.replace("%3A", ":");
+            imageView.setImageURI(Uri.parse(decodedUri));
+
             /*imageView.setImageBitmap(BitmapFactory.decodeFile(getArguments().getString(ARG_CARD_IMAGE_URI)));
             imageView.setOnClickListener(new View.OnClickListener(){
                 @Override

@@ -3,6 +3,8 @@
     package="com.themattburton.cs449.babyrecognitionprogram">
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -23,6 +25,7 @@
         <activity
             android:name=".activities.CreateNewCard"
             android:label="@string/title_activity_create_new_card"
+            android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.MainActivity"

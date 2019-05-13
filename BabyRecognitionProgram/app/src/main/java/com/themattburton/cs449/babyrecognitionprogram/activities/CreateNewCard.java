@@ -63,7 +63,7 @@ public class CreateNewCard extends AppCompatActivity {
     MediaPlayer myAudioPlayer = null;
     private int REQUEST_CODE = 1;
     private FlashCard newCard  = null;
-
+    private static List<FlashCard> cards; // = new ArrayList<>();
     private FlashcardViewModel flashcardViewModel;
 
 
@@ -76,14 +76,16 @@ public class CreateNewCard extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         flashcardViewModel = ViewModelProviders.of(this).get(FlashcardViewModel.class);
-        flashcardViewModel.getAllCards().observe(this, new Observer<List<FlashCard>>() {
+        /*flashcardViewModel.getAllCards().observe(this, new Observer<List<FlashCard>>() {
             @Override
             public void onChanged(List<FlashCard> flashCards) {
 //TODO
+                cards = flashCards;
             }
-        });
+        });*/
+        cards = flashcardViewModel.getAllCards();
         permissionToRecordAccepted = ContextCompat.checkSelfPermission(CreateNewCard.this,
-                Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED;
+        Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED;
 
         isRecording = false;
         isPlaying = false;
